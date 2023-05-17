@@ -17,6 +17,9 @@ __global__ void kernel() {
 }
 
 void launch() {
+  int driver_version;
+  CUDA_CHECK(cudaDriverGetVersion(&driver_version));
+  printf("CUDA driver version: %d\n", driver_version);
   kernel<<<1, 1>>>();
   CUDA_CHECK(cudaGetLastError());
   CUDA_CHECK(cudaDeviceSynchronize());
