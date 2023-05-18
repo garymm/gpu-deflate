@@ -129,11 +129,11 @@ void printDeviceProp(int deviceId) {
     cout << setw(w1) << "maxTexture3D.depth: " << props.maxTexture3D[2] << endl;
 
     int deviceCnt;
-    hipGetDeviceCount(&deviceCnt);
+    HIPCHECK(hipGetDeviceCount(&deviceCnt));
     cout << setw(w1) << "peers: ";
     for (int i = 0; i < deviceCnt; i++) {
         int isPeer;
-        hipDeviceCanAccessPeer(&isPeer, i, deviceId);
+        HIPCHECK(hipDeviceCanAccessPeer(&isPeer, i, deviceId));
         if (isPeer) {
             cout << "device#" << i << " ";
         }
@@ -142,7 +142,7 @@ void printDeviceProp(int deviceId) {
     cout << setw(w1) << "non-peers: ";
     for (int i = 0; i < deviceCnt; i++) {
         int isPeer;
-        hipDeviceCanAccessPeer(&isPeer, i, deviceId);
+        HIPCHECK(hipDeviceCanAccessPeer(&isPeer, i, deviceId));
         if (!isPeer) {
             cout << "device#" << i << " ";
         }
@@ -165,7 +165,7 @@ void printDeviceProp(int deviceId) {
 
 
     size_t free, total;
-    hipMemGetInfo(&free, &total);
+    HIPCHECK(hipMemGetInfo(&free, &total));
 
     cout << fixed << setprecision(2);
     cout << setw(w1) << "memInfo.total: " << bytesToGB(total) << " GB" << endl;
@@ -180,7 +180,7 @@ void printDeviceProps() {
     HIPCHECK(hipGetDeviceCount(&deviceCnt));
 
     for (int i = 0; i < deviceCnt; i++) {
-        hipSetDevice(i);
+        HIPCHECK(hipSetDevice(i));
         printDeviceProp(i);
     }
 }

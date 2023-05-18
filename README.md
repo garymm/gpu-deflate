@@ -4,6 +4,8 @@ Deflate on GPU
 
 ## Set up
 
+### Anaconda environment (tested for CPU only)
+
 * Install conda and mamba
 * `mamba env create -f environment.yml`
 * Activate the environment.
@@ -11,7 +13,21 @@ Deflate on GPU
       `echo 'layout anaconda gpu-deflate' > .envrc`
       `direnv allow`
     * Else: `conda activate gpu-deflate`
-* Test you can build: `bazel build //...`.
+* Test you can build: `bazel build //:print_hip_info`.
+
+NOTE: was getting issues with GLIBC versions when compiling CUDA code in conda environment.
+So I switched to dev container, which maybe better because it should work to build CUDA code on MacOS?
+But would be nice to get this to work without a container.
+
+
+### Dev container (tested for CPU and CUDA)
+
+Issue: GCC version that comes in the container is older (11) and doesn't have the `<expect>` header.
+Should fix by updating to latest CUDA container version which includes (?) or at least supports GCC 12,
+fix the HP bug mentioned in the docker file.
+
+* VS Code should create and open a container as defined
+  in the .devcontainer directory.
 
 ## Notes
 

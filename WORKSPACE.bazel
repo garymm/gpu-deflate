@@ -31,3 +31,13 @@ http_archive(
     strip_prefix = "oneTBB-%s" % ONETBB_VERSION,
     url = "https://github.com/oneapi-src/oneTBB/archive/refs/tags/v%s.tar.gz" % ONETBB_VERSION,
 )
+
+local_repository(
+    name = "hipamd",
+    path = "/host-home/src/ROCm-Developer-Tools/hipamd",
+)
+
+local_repository(
+    name = "hip",
+    path = "/host-home/src/ROCm-Developer-Tools/HIP",
+)

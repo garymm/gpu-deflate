@@ -16,9 +16,16 @@ cc_binary(
 
 cc_library(
     name = "hip_info",
-    srcs = ["hip_info.cpp"],
+    srcs = ["hip_info.cu.cc"],
     hdrs = ["hip_info.hpp"],
     deps = ["@hip_cpu//:hip"],
+)
+
+cuda_library(
+    name = "hip_info_cuda",
+    srcs = ["hip_info.cu.cc"],
+    hdrs = ["hip_info.hpp"],
+    deps = ["@hip"],
 )
 
 cc_binary(

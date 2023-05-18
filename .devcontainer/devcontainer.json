@@ -1,5 +1,15 @@
 {
     "build": {
         "dockerfile": "Dockerfile"
+    },
+    "mounts": [
+        "source=${localEnv:HOME}${localEnv:USERPROFILE},target=/host-home,type=bind,consistency=cached"
+    ],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "StackBuild.bazel-stack-vscode"
+            ]
+        }
     }
 }
