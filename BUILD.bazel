@@ -6,8 +6,14 @@ package(default_visibility = ["//visibility:public"])
 # TODO: won't be needed if https://github.com/bazel-contrib/rules_cuda/pull/99 is released
 genrule(
     name = "cpp_to_cu",
-    srcs = ["hip_info.cpp"],
-    outs = ["hip_info.cpp.cu"],
+    srcs = [
+        "hip_info.cpp",
+        "vector_add.cpp",
+    ],
+    outs = [
+        "hip_info.cpp.cu",
+        "vector_add.cpp.cu",
+    ],
     cmd = "for i in $(SRCS); do cp $$i $(GENDIR)/$$i.cu; done",
 )
 
@@ -37,5 +43,26 @@ cc_binary(
     deps = select({
         "@rules_cuda//cuda:is_enabled": [":hip_info_cuda"],
         "//conditions:default": [":hip_info"],
+    }),
+)
+
+cc_library(
+    name = "vector_add_cpu",
+    srcs = ["vector_add.cpp"],
+    copts = ["-Wno-error"],
+    deps = ["@hip_cpu"],
+)
+
+cuda_library(
+    name = "vector_add_cuda",
+    srcs = ["vector_add.cpp.cu"],
+    deps = ["@hip"],
+)
+
+cc_binary(
+    name = "vector_add",
+    deps = select({
+        "@rules_cuda//cuda:is_enabled": [":vector_add_cuda"],
+        "//conditions:default": [":vector_add_cpu"],
     }),
 )
